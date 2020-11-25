@@ -1,0 +1,51 @@
+
+service: serverless
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3030
+    lambdaPort: 3130
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: default
+  region: us-east-1
+  stage: dev
+  role: arn:aws:iam::593136878399:role/backend-example
+  tags: # Function specific tags
+    env: test
+    project: serverless
+  package:
+    exclude:
+      - .git/**
+      - .gitignore
+      - .DS_Store
+      - npm-debug.log
+      - .serverless/**
+      - .serverless_plugins/**
+      - .env
+      - example.env
+      - node_modules/**
+      - jspm_packages
+
+functions:
+  createSpecie:
+    handler: src/app/main/handlers/createSpecie.createSpecieHandler
+    events:
+      - http:
+          path: /species
+          method: POST
+          cors: true
+  # getAllPeople:
+  #   handler: src/main/app/handlers/getAllPeopleHandler.getAllPeopleHandler
+  #   events:
+  #     - http:
+  #         path: /people
+  #         method: GET
+  #         cors: true

@@ -8,7 +8,7 @@ class EspeciesDao {
      try {
        return await specieSchema.scan().exec()
      } catch (error) {
-       throw new Error(error)
+       throw { message: error.message }
      } 
   }
 
@@ -18,7 +18,15 @@ class EspeciesDao {
       specie.creado = new Date().toISOString();
       return await specieSchema.create(specie);
     } catch (error) {
-      throw new Error(error)
+      throw { message: error.message }
+    }
+  }
+
+  async getSpecieByName(name) {
+    try {
+      return await specieSchema.get(name);
+    } catch (error) {
+      throw { message: error.message }
     }
   }
 }

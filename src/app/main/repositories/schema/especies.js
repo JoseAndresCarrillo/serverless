@@ -3,14 +3,14 @@ const dynamoose = require('dynamoose');
 const SpieceSchema = new dynamoose.Schema({
   id: {
     type: String,
-    hashKey: true,
+    index: {
+      global: true,
+    }
   },
   nombre: {
     type: String,
     required: true,
-    index: {
-      global: true,
-    }
+    hashKey: true,
   },
   clasificacion: {
     type: String,

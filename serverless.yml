@@ -42,10 +42,17 @@ functions:
           path: /species
           method: POST
           cors: true
-  getAllPeople:
+  getAllSpecie:
     handler: src/app/main/handlers/getAllSpecie.getAllSpecieHandler
     events:
       - http:
           path: /species
+          method: GET
+          cors: true
+  getSpecieByName:
+    handler: src/app/main/handlers/getBySpecieName.getBySpecieNameHandler
+    events:
+      - http:
+          path: /species/{name}
           method: GET
           cors: true

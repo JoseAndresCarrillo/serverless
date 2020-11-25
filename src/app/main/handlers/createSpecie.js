@@ -14,8 +14,8 @@ async function createSpecieHandler(request) {
   try {
     if (Object.keys(request.body).length !== 0) {
       const especieService = new EspecieService();
-      const specie = JSON.parse(request.body);
-      const specieResponse = await especieService.createSpecieService(specie);
+      const especie = JSON.parse(request.body);
+      const specieResponse = await especieService.createSpecieService(especie);
       body.status = STATUS_OK;
       body.number_records = 1;
       body.message = 'Success';

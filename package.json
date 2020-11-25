@@ -2,17 +2,18 @@
   "name": "serverless",
   "version": "1.0.0",
   "description": "",
-  "main": "handler.js",
+  "author": "Jose Andres Carrillo",
+  "license": "ISC",
+  "scripts": {
+    "dev": "sls offline start",
+    "deploy": "sls deploy -v",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "axios": "^0.21.0",
     "dynamoose": "^2.4.0",
     "serverless-offline": "^6.8.0",
     "uuid": "^8.3.1"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jose Andres Carrillo",
-  "license": "ISC"
+  "devDependencies": {}
 }

@@ -3,14 +3,6 @@ service: serverless
 
 frameworkVersion: '2'
 
-plugins:
-  - serverless-offline
-
-custom:
-  serverless-offline:
-    httpPort: 3030
-    lambdaPort: 3130
-
 provider:
   name: aws
   runtime: nodejs12.x
@@ -21,18 +13,109 @@ provider:
   tags: # Function specific tags
     env: test
     project: serverless
-  package:
-    exclude:
-      - .git/**
-      - .gitignore
-      - .DS_Store
-      - npm-debug.log
-      - .serverless/**
-      - .serverless_plugins/**
-      - .env
-      - example.env
-      - node_modules/**
-      - jspm_packages
+
+plugins:
+  - serverless-offline
+  - serverless-aws-documentation
+
+package:
+  exclude:
+    - .git/**
+    - .gitignore
+    - .DS_Store
+    - npm-debug.log
+    - .serverless/**
+    - .serverless_plugins/**
+    - .env
+    - example.env
+    - node_modules/**
+    - jspm_packages
+
+custom:
+  serverless-offline:
+    httpPort: 3030
+    lambdaPort: 3130
+  documentation:
+    api:
+      info:
+        version: '1'
+        title: Serverless
+        description: NodeJS API with serverless framework and integrated with SWAPI
+        contact:
+          name: Jose Andres Carrillo
+          url: https://github.com/JoseAndresCarrillo
+          email: jace796@gmail.com
+        models:
+          -
+            name: Especie
+            description: Es una especie dentro del universo de Star Wars
+            contentType: "application/json"
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                nombre:
+                  type: string
+                clasificacion:
+                  type: string
+                designacion:
+                  type: string
+                altura_promedio:
+                  type: string
+                tiempo_de_vida_promedio:
+                  type: string
+                color_ojo:
+                  type: string
+                color_cabello:
+                  type: string
+                color_piel:
+                  type: string
+                lenguaje:
+                  type: string
+                mundo_hogar:
+                  type: string
+                personas:
+                  type: string
+                peliculas:
+                  type: string
+                url:
+                  type: string
+                creado:
+                  type: string
+                editado:
+                  type: string
+          -
+            name: EspecieCreada
+            description: Modelo que se retorna una vez creada una especie
+            contentType: "application/json"
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                number_records:
+                  type: number
+                message:
+                  type: string
+                data:
+                  $ref: {{model: Especie}}
+          -
+            name: ErrorReponse
+            description: Modelo de la respuesta de error
+            contentType: "application/json"
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                number_records:
+                  type: number
+                message:
+                  type: string
+                data:
+                  type: object
+
 
 functions:
   createSpecie:
@@ -42,6 +125,20 @@ functions:
           path: /species
           method: POST
           cors: true
+          documentation:
+            summary: Creacion de especies
+            description: Creacion de especies del universo de Star Wars
+            requestModels:
+              "application/json": Especie
+            methodResponses:
+              -
+                statusCode: '200'
+                responseModels:
+                  "application/json": EspecieCreada
+              -
+                statusCode: '500'
+                responseModels:
+                  "application/json": ErrorReponse
   getAllSpecie:
     handler: src/app/main/handlers/getAllSpecie.getAllSpecieHandler
     events:

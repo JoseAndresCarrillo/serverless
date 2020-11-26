@@ -1,0 +1,256 @@
+openapi: 3.0.0
+components:
+  schemas:
+    Especie:
+      title: Esquema de especie
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+        clasificacion:
+          type: string
+        designacion:
+          type: string
+        altura_promedio:
+          type: string
+        tiempo_de_vida_promedio:
+          type: string
+        color_ojo:
+          type: string
+        color_cabello:
+          type: string
+        color_piel:
+          type: string
+        lenguaje:
+          type: string
+        mundo_hogar:
+          type: string
+        personas:
+          type: string
+        url:
+          type: string
+        creado:
+          type: string
+        editado:
+          type: string
+    EspecieCreada:
+      title: Response al crear una especie
+      properties:
+        status:
+          type: number
+        number_records:
+          type: string
+        message:
+          type: string
+        data:
+          description: Esquema de especie
+          properties:
+            id:
+              type: string
+            nombre:
+              type: string
+            clasificacion:
+              type: string
+            designacion:
+              type: string
+            altura_promedio:
+              type: string
+            tiempo_de_vida_promedio:
+              type: string
+            color_ojo:
+              type: string
+            color_cabello:
+              type: string
+            color_piel:
+              type: string
+            lenguaje:
+              type: string
+            mundo_hogar:
+              type: string
+            personas:
+              type: string
+            url:
+              type: string
+            creado:
+              type: string
+            editado:
+              type: string
+    EspecieTodas:
+      title: Response al obtener todas las especie
+      properties:
+        status:
+          type: number
+        number_records:
+          type: string
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            description: Esquema de especie
+            properties:
+              id:
+                type: string
+              nombre:
+                type: string
+              clasificacion:
+                type: string
+              designacion:
+                type: string
+              altura_promedio:
+                type: string
+              tiempo_de_vida_promedio:
+                type: string
+              color_ojo:
+                type: string
+              color_cabello:
+                type: string
+              color_piel:
+                type: string
+              lenguaje:
+                type: string
+              mundo_hogar:
+                type: string
+              personas:
+                type: string
+              url:
+                type: string
+              creado:
+                type: string
+              editado:
+                type: string
+    EspecieUna:
+      title: Response al crear una especie
+      properties:
+        status:
+          type: number
+        number_records:
+          type: string
+        message:
+          type: string
+        data:
+          description: Esquema de especie
+          properties:
+            id:
+              type: string
+            nombre:
+              type: string
+            clasificacion:
+              type: string
+            designacion:
+              type: string
+            altura_promedio:
+              type: string
+            tiempo_de_vida_promedio:
+              type: string
+            color_ojo:
+              type: string
+            color_cabello:
+              type: string
+            color_piel:
+              type: string
+            lenguaje:
+              type: string
+            mundo_hogar:
+              type: string
+            personas:
+              type: string
+            url:
+              type: string
+            creado:
+              type: string
+            editado:
+              type: string
+    ErrorReponse:
+      properties:
+        status:
+          type: string
+        number_records:
+          type: number
+        message:
+          type: string
+        data:
+          type: object
+  securitySchemes: {}
+info:
+  title: Serverless
+  description: NodeJS API with serverless framework and integrated with SWAPI
+  version: '1'
+paths:
+  /species:
+    post:
+      operationId: createSpecie
+      summary: Creacion de especies
+      description: Creacion de especies del universo de Star Wars
+      responses:
+        '201':
+          description: Status 201 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EspecieCreada'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorReponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Especie'
+        description: Informacion de una especie
+    get:
+      operationId: getAllSpecie
+      summary: Obtener todas las especies
+      description: Obtener todas las especies del universo de Star Wars
+      responses:
+        '201':
+          description: Status 201 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EspecieTodas'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorReponse'
+  '/species/{nombre}':
+    get:
+      operationId: getSpecieByName
+      summary: Obtener una especie
+      description: Obtener una especie del universo de Star Wars
+      responses:
+        '201':
+          description: Status 201 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Especie'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorReponse'
+        parameters:
+        - name: nombre
+          in: path
+          description: Nombre de la especie
+          required: true
+          schema:
+            type: string
+        - name: external
+          in: query
+          description: Parametro para la obtencion de una especie de manera interna(base de datos DynamoDB - false) o externa(SWAPI - true)
+          required: false
+          allowEmptyValue: false
+          schema:
+            type: string
+            enum:
+              - true
+              - false

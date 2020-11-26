@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title" : "Response al obtener todas las especie",
+  "properties": {
+    "status": {
+      "type":"number"
+    },
+    "number_records": {
+      "type":"string"
+    },
+    "message": {
+      "type":"string"
+    },
+    "data": {
+      "type":"array",
+      "items": {
+        "$ref": "#/definitions/especie"
+      }
+    }
+  },
+  "definitions": {
+    "especie": {
+      "description": "Esquema de especie",
+      "properties": {
+        "id": {
+          "type":"string"
+        },
+        "nombre": {
+          "type":"string"
+        },
+        "clasificacion": {
+          "type":"string"
+        },
+        "designacion": {
+          "type":"string"
+        },
+        "altura_promedio": {
+          "type":"string"
+        },
+        "tiempo_de_vida_promedio": {
+          "type":"string"
+        },
+        "color_ojo": {
+          "type":"string"
+        },
+        "color_cabello": {
+          "type":"string"
+        },
+        "color_piel": {
+          "type":"string"
+        },
+        "lenguaje": {
+          "type":"string"
+        },
+        "mundo_hogar": {
+          "type":"string"
+        },
+        "personas": {
+          "type":"string"
+        },
+        "url": {
+          "type":"string"
+        },
+        "creado": {
+          "type":"string"
+        },
+        "editado": {
+          "type":"string"
+        }
+      }
+    }
+  }
+}

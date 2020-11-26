@@ -43,88 +43,19 @@ custom:
       - name: Especie
         description: Es una especie dentro del universo de Star Wars
         contentType: "application/json"
-        schema:
-          $schema: "http://json-schema.org/draft-04/schema#"
-          properties:
-            id:
-              type: string
-            nombre:
-              type: string
-            clasificacion:
-              type: string
-            designacion:
-              type: string
-            altura_promedio:
-              type: string
-            tiempo_de_vida_promedio:
-              type: string
-            color_ojo:
-              type: string
-            color_cabello:
-              type: string
-            color_piel:
-              type: string
-            lenguaje:
-              type: string
-            mundo_hogar:
-              type: string
-            personas:
-              type: string
-            peliculas:
-              type: string
-            url:
-              type: string
-            creado:
-              type: string
-            editado:
-              type: string
+        schema: ${file(models/especie.json)}
       - name: EspecieCreada
         description: Modelo que se retorna una vez creada una especie
         contentType: "application/json"
-        schema:
-          $schema: "http://json-schema.org/draft-04/schema#"
-          properties:
-            status:
-              type: string
-            number_records:
-              type: number
-            message:
-              type: string
-            data:
-              type: object
-              properties:
-                id:
-                  type: string
-                nombre:
-                  type: string
-                clasificacion:
-                  type: string
-                designacion:
-                  type: string
-                altura_promedio:
-                  type: string
-                tiempo_de_vida_promedio:
-                  type: string
-                color_ojo:
-                  type: string
-                color_cabello:
-                  type: string
-                color_piel:
-                  type: string
-                lenguaje:
-                  type: string
-                mundo_hogar:
-                  type: string
-                personas:
-                  type: string
-                peliculas:
-                  type: string
-                url:
-                  type: string
-                creado:
-                  type: string
-                editado:
-                  type: string
+        schema: ${file(models/especieCreada.json)}
+      - name: EspecieTodas
+        description: Modelo que se retorna todas las especies
+        contentType: "application/json"
+        schema: ${file(models/especieTodas.json)}
+      - name: EspecieUna
+        description: Modelo que se retorna todas las especies
+        contentType: "application/json"
+        schema: ${file(models/especieUna.json)}
       - name: ErrorReponse
         description: Modelo de la respuesta de error
         contentType: "application/json"
@@ -151,8 +82,10 @@ functions:
           documentation:
             summary: Creacion de especies
             description: Creacion de especies del universo de Star Wars
+            requestBody:
+              description: Informacion de una especie
             requestModels:
-              "application/json": Especie
+              application/json: Especie
             methodResponses:
               - statusCode: '201'
                 responseModels:
@@ -160,7 +93,6 @@ functions:
               - statusCode: '500'
                 responseModels:
                   "application/json": ErrorReponse
-
   getAllSpecie:
     handler: src/app/main/handlers/getAllSpecie.getAllSpecieHandler
     events:
@@ -168,10 +100,43 @@ functions:
           path: species
           method: GET
           cors: true
+          documentation:
+            summary: Obtener todas las especies
+            description: Obtener todas las especies del universo de Star Wars
+            methodResponses:
+              - statusCode: '201'
+                responseModels:
+                  "application/json": EspecieTodas
+              - statusCode: '500'
+                responseModels:
+                  "application/json": ErrorReponse
   getSpecieByName:
     handler: src/app/main/handlers/getBySpecieName.getBySpecieNameHandler
     events:
       - http:
-          path: species/{name}
+          path: species/{nombre}
           method: GET
           cors: true
+          documentation:
+            summary: Obtener una especie
+            description: Obtener una especie del universo de Star Wars
+            pathParams:
+            - name: "nombre"
+              description: "Nombre de la especie"
+              schema:
+                type: "string"
+            queryParams:
+            - name: "external"
+              description: "Parametro para la obtencion de una especie de manera interna(base de datos local - false) o externa(SWAPI - true)"
+              schema:
+                type: "string"
+                enum:
+                    - true
+                    - false
+            methodResponses:
+              - statusCode: '201'
+                responseModels:
+                  "application/json": Especie
+              - statusCode: '500'
+                responseModels:
+                  "application/json": ErrorReponse

@@ -9,7 +9,22 @@ provider:
   profile: default
   region: us-east-1
   stage: dev
-  role: arn:aws:iam::593136878399:role/backend-example
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeStream
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:ListStreams
+        - dynamodb:BatchWriteItem
+      Resource: '*'
   tags: # Function specific tags
     env: test
     project: serverless
@@ -114,14 +129,14 @@ functions:
     handler: src/app/main/handlers/getBySpecieName.getBySpecieNameHandler
     events:
       - http:
-          path: species/{nombre}
+          path: species/{name}
           method: GET
           cors: true
           documentation:
             summary: Obtener una especie
             description: Obtener una especie del universo de Star Wars
             pathParams:
-            - name: "nombre"
+            - name: "name"
               description: "Nombre de la especie"
               schema:
                 type: "string"
